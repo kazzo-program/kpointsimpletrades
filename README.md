@@ -1,6 +1,6 @@
-# KPOINT SIMPLE TRADES — Green & Black 4H RSI + MACD Strategy Terminal (1:1 R:R)
+# kpointsimpletrades — Green & Black 4H RSI + MACD Strategy Terminal (1:1 R:R)
 
-**KPOINT SIMPLE TRADES** is a real-time **Green & Black** quantitative trading advisory web application that uses the **4-Hour (4H) RSI(14) + MACD(12, 26, 9) Strategy** to advise traders what trades to take for the **next 4 hours**, complete with exact **Entry**, **Take Profit (TP)**, and **Stop Loss (SL)** levels at a strict **1:1 Risk-to-Reward ratio (`1.00R : 1.00R`)**.
+**kpointsimpletrades** is a real-time **Green & Black** quantitative trading advisory web application that uses the **4-Hour (4H) RSI(14) + MACD(12, 26, 9) Strategy** to advise traders what trades to take for the **next 4 hours**, complete with exact **Entry**, **Take Profit (TP)**, and **Stop Loss (SL)** levels at a strict **1:1 Risk-to-Reward ratio (`1.00R : 1.00R`)**.
 
 ---
 

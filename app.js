@@ -1,5 +1,5 @@
 /**
- * KPOINT SIMPLE TRADES // GREEN & BLACK 4H RSI + MACD TRADE ADVISORY TERMINAL
+ * kpointsimpletrades // GREEN & BLACK 4H RSI + MACD TRADE ADVISORY TERMINAL
  * Focus Assets: XAUUSD, BTCUSD, ETHUSD, XAGUSD, USDJPY
  * Strategy: 4-Hour RSI(14) + MACD(12, 26, 9) with Strict 1:1 Risk-to-Reward (Entry, TP, SL)
  * Live Prices & 4H Technicals: https://scanner.tradingview.com/global/scan (No API Key Required)
@@ -907,7 +907,7 @@
     if (!asset) return;
     const strat = evaluate4HStrategy(asset);
     const text = [
-      `KPOINT SIMPLE TRADES // NEXT 4H SIGNAL`,
+      `kpointsimpletrades // NEXT 4H SIGNAL`,
       `Asset: ${asset.symbol} (${asset.tvSymbol})`,
       `Direction: ${strat.direction} (Next 4 Hours)`,
       `Entry: ${formatPrice(strat.entryPrice, asset.decimals, asset.prefix)}`,

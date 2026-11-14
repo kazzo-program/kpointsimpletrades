@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-KPOINT SIMPLE TRADES // GREEN & BLACK 4H RSI + MACD TRADE ADVISORY TERMINAL
+kpointsimpletrades // GREEN & BLACK 4H RSI + MACD TRADE ADVISORY TERMINAL
 Live TradingView Scanner API Backend (No API Keys Required)
 Focus Assets: XAUUSD, BTCUSD, ETHUSD, XAGUSD, USDJPY
 Strategy: 4-Hour RSI(14) + MACD(12, 26, 9) with Strict 1:1 Risk-to-Reward (Entry, TP, SL)
@@ -106,7 +106,7 @@ class KpointSimpleTradesHandler(SimpleHTTPRequestHandler):
         if parsed.path in ("/api/quotes", "/api/all"):
             self.send_json({
                 "status": "ONLINE",
-                "terminal": "KPOINT SIMPLE TRADES // 4H RSI + MACD (1:1 R:R)",
+                "terminal": "kpointsimpletrades // 4H RSI + MACD (1:1 R:R)",
                 "source": "TradingView Live Scanner API (No API Key)",
                 "assets": ["XAUUSD", "BTCUSD", "ETHUSD", "XAGUSD", "USDJPY"],
                 "quotes": fetch_tradingview_live(),
@@ -129,7 +129,7 @@ class KpointSimpleTradesHandler(SimpleHTTPRequestHandler):
 def run_server():
     httpd = HTTPServer(("", PORT), KpointSimpleTradesHandler)
     print("=" * 76)
-    print("  KPOINT SIMPLE TRADES // GREEN & BLACK 4H RSI + MACD TERMINAL")
+    print("  kpointsimpletrades // GREEN & BLACK 4H RSI + MACD TERMINAL")
     print(f"  Local URL: http://localhost:{PORT}")
     print("  Assets: XAUUSD • BTCUSD • ETHUSD • XAGUSD • USDJPY (1:1 Risk-to-Reward)")
     print("  Live Feed: https://scanner.tradingview.com/global/scan (No API Key)")

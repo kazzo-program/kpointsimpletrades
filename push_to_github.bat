@@ -1,7 +1,7 @@
 @echo off
-title KPOINT SIMPLE TRADES - Push to GitHub (kpointsimpletrades)
+title kpointsimpletrades - Push to GitHub (kpointsimpletrades)
 echo =========================================================================
-echo   KPOINT SIMPLE TRADES // GREEN ^& BLACK 4H RSI + MACD TERMINAL (1:1 R:R)
+echo   kpointsimpletrades // GREEN ^& BLACK 4H RSI + MACD TERMINAL (1:1 R:R)
 echo   Repository: https://github.com/kazzo-program/kpointsimpletrades
 echo =========================================================================
 echo.
