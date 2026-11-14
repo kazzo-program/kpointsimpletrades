@@ -3,40 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>KPOINT COF — Live TradingView Prices + Macro News Terminal (CFDs • Options • Futures)</title>
-  <meta name="description" content="Next-Gen White & Black Macro Trading Terminal powered by real-time TradingView live prices (scanner.tradingview.com + TradingView Widgets), Yahoo Finance, and ForexFactory (No API Keys). Separate toggleable sections for CFDs, Options & Futures." />
+  <title>KPOINT SIMPLE TRADES — Green &amp; Black 4H RSI + MACD Strategy Terminal (1:1 R:R)</title>
+  <meta name="description" content="Green & Black 4-Hour RSI(14) + MACD(12,26,9) Trade Advisory Terminal for XAUUSD, BTCUSD, ETHUSD, XAGUSD, and USDJPY. Live TradingView prices (No API Key required) with exact Entry, Take Profit, and Stop Loss at 1:1 Risk-to-Reward." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
 </head>
-<body class="wb-light">
+<body>
 
-  <!-- OFFICIAL LIVE TRADINGVIEW TICKER TAPE EMBED -->
-  <div class="tv-official-tape-wrap">
+  <!-- 1. OFFICIAL TRADINGVIEW LIVE TICKER TAPE WIDGET (5 CORE ASSETS) -->
+  <div class="tv-tape-wrapper">
     <div class="tradingview-widget-container">
       <div class="tradingview-widget-container__widget"></div>
       <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
       {
         "symbols": [
-          { "proName": "OANDA:XAUUSD", "title": "XAUUSD (Gold CFD)" },
-          { "proName": "BITSTAMP:BTCUSD", "title": "BTCUSD (Bitcoin CFD)" },
-          { "proName": "FX:USDJPY", "title": "USDJPY (FX CFD)" },
-          { "proName": "FX:EURUSD", "title": "EURUSD (FX CFD)" },
-          { "proName": "NASDAQ:META", "title": "META" },
-          { "proName": "NASDAQ:NVDA", "title": "NVDA" },
-          { "proName": "AMEX:SPY", "title": "SPY" },
-          { "proName": "NASDAQ:QQQ", "title": "QQQ" },
-          { "proName": "NASDAQ:MSFT", "title": "MSFT" },
-          { "proName": "NASDAQ:AAPL", "title": "AAPL" },
-          { "proName": "CME_MINI:ES1!", "title": "ES1! (S&P Futures)" },
-          { "proName": "CME_MINI:NQ1!", "title": "NQ1! (Nasdaq Futures)" },
-          { "proName": "COMEX:GC1!", "title": "GC1! (Gold Futures)" },
-          { "proName": "NYMEX:CL1!", "title": "CL1! (Crude Futures)" }
+          { "proName": "OANDA:XAUUSD", "title": "XAUUSD • Gold Spot" },
+          { "proName": "BITSTAMP:BTCUSD", "title": "BTCUSD • Bitcoin" },
+          { "proName": "BITSTAMP:ETHUSD", "title": "ETHUSD • Ethereum" },
+          { "proName": "OANDA:XAGUSD", "title": "XAGUSD • Silver Spot" },
+          { "proName": "FX:USDJPY", "title": "USDJPY • US Dollar / Yen" }
         ],
         "showSymbolLogo": true,
-        "isTransparent": false,
+        "isTransparent": true,
         "displayMode": "adaptive",
         "colorTheme": "dark",
         "locale": "en"
@@ -45,524 +36,245 @@
     </div>
   </div>
 
-  <!-- TOP JET-BLACK STREAMING RIBBON (POWERED BY LIVE TRADINGVIEW SCANNER API + TODAY'S DATE) -->
-  <div class="live-marquee-bar">
-    <div class="marquee-badge">
-      <span class="live-dot"></span>
-      <span>TRADINGVIEW LIVE API // 4s REAL-TIME POLL</span>
-    </div>
-    <div class="marquee-viewport">
-      <div class="marquee-track" id="live-ticker-ribbon">
-        <!-- Populated dynamically by app.js from scanner.tradingview.com -->
+  <!-- 2. REAL-TIME TRADINGVIEW SCANNER STREAMING RIBBON + CURRENT DATE & CLOCK -->
+  <div class="top-telemetry-bar">
+    <div class="telemetry-left">
+      <span class="pulse-badge">
+        <span class="pulse-dot"></span>
+        <span>TRADINGVIEW LIVE SCANNER // NO API KEY</span>
+      </span>
+      <div class="live-strip-tickers" id="top-live-strip">
+        <!-- Populated continuously by app.js -->
       </div>
     </div>
-    <div class="marquee-date-clock" id="marquee-date-clock">
-      <span class="marquee-live-date" id="marquee-live-date">Today: Live Date</span>
-      <span class="marquee-clock-sep">•</span>
-      <span class="marquee-clock" id="utc-clock-display">00:00:00 UTC</span>
+    <div class="telemetry-right">
+      <span class="date-pill-top" id="top-current-date">Today: Loading Date...</span>
+      <span id="top-utc-clock">00:00:00 UTC</span>
+      <span style="color:var(--green-neon);" id="top-sync-status">● LIVE STREAM ACTIVE</span>
     </div>
   </div>
 
-  <!-- ULTRA-MODERN WHITE & BLACK NAVIGATION HEADER (NON-STICKY SO IT DOES NOT BLOCK SCREEN ON MOBILE) -->
-  <header class="wb-header">
-    <div class="wb-header-container">
-      <!-- Brand Identity -->
-      <div class="wb-brand">
-        <div class="wb-logo-mark">
-          <span>COF</span>
+  <!-- 3. GREEN & BLACK TERMINAL HEADER -->
+  <header class="terminal-header">
+    <div class="header-inner">
+      <div class="brand-cluster">
+        <div class="brand-emblem">
+          <span>KP</span>
+          <small>4H R:R</small>
         </div>
-        <div class="wb-brand-copy">
-          <div class="wb-title-line">
-            <h1>KPOINT COF</h1>
-            <span class="wb-pill-black">TRADINGVIEW LIVE PRICES</span>
-            <span class="wb-pill-outline">NO API KEYS</span>
-          </div>
-          <p class="wb-subtitle">
-            100% Real-Time Prices from <strong>TradingView</strong> + Live <strong>ForexFactory</strong> (CPI • NFP • FOMC) &amp; <strong>Yahoo Finance</strong> News → <strong>BUY / SELL / HOLD</strong>
+        <div class="brand-text">
+          <h1>
+            KPOINT SIMPLE TRADES
+            <span class="badge-green">RSI + MACD 4H STRATEGY</span>
+            <span class="badge-outline">1:1 RISK TO REWARD</span>
+          </h1>
+          <p class="brand-sub">
+            Live <strong>TradingView</strong> Price &amp; 4-Hour Technical Engine advising exact <strong>Entry</strong>, <strong>Take Profit</strong> &amp; <strong>Stop Loss (1:1 R:R)</strong> for <strong>XAUUSD • BTCUSD • ETHUSD • XAGUSD • USDJPY</strong>
           </p>
         </div>
       </div>
 
-      <!-- Right Action Bar with Today's Live Date -->
-      <div class="wb-header-actions">
-        <!-- TODAY'S DATE BADGE -->
-        <div class="wb-date-badge" id="header-today-date-badge" title="Today's Current Live Date">
-          <span class="date-icon">📅</span>
-          <span class="date-label">TODAY:</span>
-          <strong id="header-live-today-date">Loading date...</strong>
+      <div class="header-controls">
+        <div class="current-date-box">
+          <span class="lbl">📅 CURRENT LIVE DATE</span>
+          <span class="val" id="header-current-date">Loading...</span>
         </div>
-
-        <div class="wb-status-cluster">
-          <span class="wb-status-chip">
-            <span class="dot-green"></span>
-            TradingView Feed: <strong id="last-price-sync-label">CONNECTING...</strong>
-          </span>
-          <span class="wb-status-chip">
-            <span class="dot-green"></span>
-            ForexFactory / Yahoo: <strong>LIVE</strong>
-          </span>
+        <div class="horizon-box">
+          <span class="lbl">⏱ NEXT 4-HOUR TRADE WINDOW</span>
+          <span class="val" id="header-4h-window">Calculating...</span>
         </div>
-
-        <button class="wb-btn-outline" onclick="toggleWhiteBlackPolarity()" id="polarity-btn" title="Invert White & Black Polarity">
-          <span>◐ White / Black Mode</span>
+        <button class="btn-matrix" onclick="forceSyncTradingView(true)">
+          ⚡ SYNC LIVE PRICES
         </button>
-
-        <button class="wb-btn-black" id="sync-all-btn" onclick="triggerLiveMacroSync()">
-          <span id="sync-spinner-icon">↻</span>
-          <span>Refresh Live</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- ===================================================================
-         PROMINENT DESK SWITCHER + INTERACTIVE SECTION TOGGLE BAR
-         =================================================================== -->
-    <div class="wb-desk-control-bar">
-      <div class="wb-desk-control-inner">
-
-        <!-- 1. Segmented Desk Selector -->
-        <div class="wb-segmented-group" role="tablist" aria-label="Trading Desks">
-          <button class="wb-seg-btn active" data-desk="ALL" onclick="selectDeskMode('ALL', this)">
-            <span class="seg-dot"></span>
-            <span>All Desks View</span>
-          </button>
-          <button class="wb-seg-btn" data-desk="CFDS" onclick="selectDeskMode('CFDS', this)">
-            <span>💱 CFDs Section</span>
-            <span class="seg-badge">XAUUSD • BTCUSD • USDJPY</span>
-          </button>
-          <button class="wb-seg-btn" data-desk="OPTIONS" onclick="selectDeskMode('OPTIONS', this)">
-            <span>🎯 Options Section</span>
-            <span class="seg-badge">META • NVDA • SPY</span>
-          </button>
-          <button class="wb-seg-btn" data-desk="FUTURES" onclick="selectDeskMode('FUTURES', this)">
-            <span>📈 Futures Section</span>
-            <span class="seg-badge">ES=F • NQ=F • GC=F</span>
-          </button>
-          <button class="wb-seg-btn" data-desk="NEWS" onclick="selectDeskMode('NEWS', this)">
-            <span>📰 Live CPI / NFP &amp; News</span>
-          </button>
-        </div>
-
-        <!-- 2. Individual ON/OFF Section Toggle Switches -->
-        <div class="wb-toggle-switches-bar" aria-label="Toggle Individual Sections On or Off">
-          <span class="toggle-bar-label">TOGGLE SECTIONS ON/OFF:</span>
-
-          <label class="wb-switch-pill" id="pill-toggle-cfds">
-            <input type="checkbox" id="chk-section-cfds" checked onchange="toggleSectionVisibility('cfds', this.checked)" />
-            <span class="wb-switch-slider"></span>
-            <span class="wb-switch-text">CFDs</span>
-          </label>
-
-          <label class="wb-switch-pill" id="pill-toggle-options">
-            <input type="checkbox" id="chk-section-options" checked onchange="toggleSectionVisibility('options', this.checked)" />
-            <span class="wb-switch-slider"></span>
-            <span class="wb-switch-text">Options</span>
-          </label>
-
-          <label class="wb-switch-pill" id="pill-toggle-futures">
-            <input type="checkbox" id="chk-section-futures" checked onchange="toggleSectionVisibility('futures', this.checked)" />
-            <span class="wb-switch-slider"></span>
-            <span class="wb-switch-text">Futures</span>
-          </label>
-
-          <label class="wb-switch-pill" id="pill-toggle-news">
-            <input type="checkbox" id="chk-section-news" checked onchange="toggleSectionVisibility('news', this.checked)" />
-            <span class="wb-switch-slider"></span>
-            <span class="wb-switch-text">Macro News</span>
-          </label>
-        </div>
-
       </div>
     </div>
   </header>
 
-  <!-- MAIN MODERN WORKSPACE -->
-  <main class="wb-main">
+  <!-- 4. MAIN TERMINAL WORKSPACE -->
+  <main class="main-container">
 
-    <!-- LIVE MACRO REGIME BENTO STRIP (CPI, NFP, FED RATE, XAUUSD, BTCUSD, USDJPY) -->
-    <section class="wb-bento-strip" aria-label="Macro Indicators">
-      <div class="wb-bento-mini">
-        <div class="mini-top">
-          <span class="mini-tag">FOREXFACTORY CPI</span>
-          <span class="mini-pill-black">INFLATION</span>
+    <!-- STRATEGY OVERVIEW TELEMETRY STRIP -->
+    <section class="strategy-hero-strip">
+      <div class="stat-tile">
+        <div class="stat-tile-header">
+          <span>CORE STRATEGY ENGINE</span>
+          <span>4H TIMEFRAME</span>
         </div>
-        <div class="mini-value-row">
-          <span class="mini-big" id="macro-cpi-actual">2.6%</span>
-          <span class="mini-sub">Fcst 2.6% • Core 3.3%</span>
-        </div>
-        <div class="mini-foot">Controlled CPI → <strong class="txt-buy">BUY</strong> Gold &amp; Tech</div>
+        <div class="stat-tile-value">RSI(14) + MACD(12,26,9)</div>
+        <div class="stat-tile-sub">Confluence momentum &amp; trend crossover advisory</div>
       </div>
 
-      <div class="wb-bento-mini">
-        <div class="mini-top">
-          <span class="mini-tag">FOREXFACTORY NFP</span>
-          <span class="mini-pill-black">JOBS REPORT</span>
+      <div class="stat-tile">
+        <div class="stat-tile-header">
+          <span>RISK TO REWARD RATIO</span>
+          <span>STRICT SYMMETRY</span>
         </div>
-        <div class="mini-value-row">
-          <span class="mini-big" id="macro-nfp-actual">227K</span>
-          <span class="mini-sub">Fcst 202K • Unemp 4.2%</span>
-        </div>
-        <div class="mini-foot">Strong Labor → <strong class="txt-buy">BUY</strong> USDJPY &amp; ES=F</div>
+        <div class="stat-tile-value">1 : 1 (1.00R : 1.00R)</div>
+        <div class="stat-tile-sub">|Take Profit − Entry| = |Entry − Stop Loss|</div>
       </div>
 
-      <div class="wb-bento-mini">
-        <div class="mini-top">
-          <span class="mini-tag">FOMC RATE PATH</span>
-          <span class="mini-pill-black">CENTRAL BANK</span>
+      <div class="stat-tile">
+        <div class="stat-tile-header">
+          <span>NEXT 4H CANDLE COUNTDOWN</span>
+          <span>AUTO-ROLLOVER</span>
         </div>
-        <div class="mini-value-row">
-          <span class="mini-big" id="macro-fed-actual">4.50%</span>
-          <span class="mini-sub">-25 bps Easing Cycle</span>
-        </div>
-        <div class="mini-foot">Liquidity Tailwind → <strong class="txt-buy">BUY</strong> BTCUSD &amp; NQ=F</div>
+        <div class="stat-tile-value" id="next-4h-countdown">03h 59m 59s</div>
+        <div class="stat-tile-sub" id="active-signals-summary">5 Active 4-Hour Setups Ready</div>
       </div>
 
-      <div class="wb-bento-mini mini-highlight" onclick="loadTradingViewChart('OANDA:XAUUSD', 'XAUUSD — Gold Spot CFD')">
-        <div class="mini-top">
-          <span class="mini-tag">OANDA:XAUUSD • GOLD CFD</span>
-          <span class="wb-adv-pill adv-buy">▲ BUY</span>
+      <div class="stat-tile">
+        <div class="stat-tile-header">
+          <span>TRADINGVIEW LIVE FEED</span>
+          <span id="feed-mode-tag">SCANNER API</span>
         </div>
-        <div class="mini-value-row">
-          <span class="mini-big" id="strip-price-XAUUSD" data-live-price="XAUUSD">$3,884.69</span>
-          <span class="mini-delta delta-up" id="strip-delta-XAUUSD" data-live-chg="XAUUSD">+0.18%</span>
-        </div>
-        <div class="mini-foot">Click for Live TradingView Chart</div>
-      </div>
-
-      <div class="wb-bento-mini mini-highlight" onclick="loadTradingViewChart('BITSTAMP:BTCUSD', 'BTCUSD — Bitcoin Spot CFD')">
-        <div class="mini-top">
-          <span class="mini-tag">BITSTAMP:BTCUSD • CFD</span>
-          <span class="wb-adv-pill adv-buy">▲ BUY</span>
-        </div>
-        <div class="mini-value-row">
-          <span class="mini-big" id="strip-price-BTCUSD" data-live-price="BTCUSD">$65,380.75</span>
-          <span class="mini-delta delta-down" id="strip-delta-BTCUSD" data-live-chg="BTCUSD">-4.18%</span>
-        </div>
-        <div class="mini-foot">Click for Live TradingView Chart</div>
-      </div>
-
-      <div class="wb-bento-mini mini-highlight" onclick="loadTradingViewChart('FX:USDJPY', 'USDJPY — FX Spot CFD')">
-        <div class="mini-top">
-          <span class="mini-tag">FX:USDJPY • FX CFD</span>
-          <span class="wb-adv-pill adv-buy">▲ BUY</span>
-        </div>
-        <div class="mini-value-row">
-          <span class="mini-big" id="strip-price-USDJPY" data-live-price="USDJPY">¥159.713</span>
-          <span class="mini-delta delta-down" id="strip-delta-USDJPY" data-live-chg="USDJPY">-0.07%</span>
-        </div>
-        <div class="mini-foot">Click for Live TradingView Chart</div>
+        <div class="stat-tile-value" id="last-tick-timestamp">LIVE UPDATING</div>
+        <div class="stat-tile-sub">Direct scanner.tradingview.com • Zero API Key</div>
       </div>
     </section>
 
-    <!-- ===================================================================
-         FULL-WIDTH LIVE INTERACTIVE TRADINGVIEW REAL-TIME CHART TERMINAL
-         (Clean layout with META news earnings section thing removed)
-         =================================================================== -->
-    <section class="wb-section-card wb-tv-chart-card">
-      <div class="wb-section-head">
-        <div>
-          <div class="wb-eyebrow">
-            <span class="wb-index-badge">TV</span>
-            <span>REAL-TIME TRADINGVIEW TERMINAL FEED • ZERO API KEY</span>
-          </div>
-          <h2 class="wb-section-title" id="tv-chart-active-title">OANDA:XAUUSD — Gold Spot CFD Live Chart</h2>
-          <p class="wb-section-desc">Interactive institutional TradingView chart with live bid/ask quotes across CFDs, Options underlyings, and Futures contracts.</p>
+    <!-- 5. 5-INSTRUMENT 4-HOUR RSI + MACD TRADE ADVISORY CARDS -->
+    <section>
+      <div class="section-bar">
+        <div class="section-title-group">
+          <h2>
+            <span>🎯 NEXT 4 HOURS TRADE ADVISORY</span>
+            <span class="badge-outline">XAUUSD • BTCUSD • ETHUSD • XAGUSD • USDJPY</span>
+          </h2>
+          <p>
+            Real-time 4-Hour RSI(14) &amp; MACD(12,26,9) signals with live Entry, Take Profit (TP), and Stop Loss (SL) locked to an exact <strong>1:1 Risk-to-Reward</strong> ratio.
+          </p>
         </div>
-        <div class="wb-sample-pills">
-          <span class="sample-label">QUICK CHART:</span>
-          <button class="wb-chip active" onclick="loadTradingViewChart('OANDA:XAUUSD', 'XAUUSD — Gold Spot CFD')">XAUUSD</button>
-          <button class="wb-chip" onclick="loadTradingViewChart('BITSTAMP:BTCUSD', 'BTCUSD — Bitcoin CFD')">BTCUSD</button>
-          <button class="wb-chip" onclick="loadTradingViewChart('FX:USDJPY', 'USDJPY — FX CFD')">USDJPY</button>
-          <button class="wb-chip" onclick="loadTradingViewChart('FX:EURUSD', 'EURUSD — FX CFD')">EURUSD</button>
-          <button class="wb-chip" onclick="loadTradingViewChart('NASDAQ:META', 'META — Options Underlying')">META</button>
-          <button class="wb-chip" onclick="loadTradingViewChart('NASDAQ:NVDA', 'NVDA — Options Underlying')">NVDA</button>
-          <button class="wb-chip" onclick="loadTradingViewChart('AMEX:SPY', 'SPY — S&P 500 ETF')">SPY</button>
-          <button class="wb-chip" onclick="loadTradingViewChart('CME_MINI:ES1!', 'ES1! — S&P 500 Futures')">ES1!</button>
-          <button class="wb-chip" onclick="loadTradingViewChart('CME_MINI:NQ1!', 'NQ1! — Nasdaq-100 Futures')">NQ1!</button>
-          <button class="wb-chip" onclick="loadTradingViewChart('NYMEX:CL1!', 'CL1! — WTI Crude Oil')">CL1!</button>
+
+        <div class="filter-pills">
+          <button class="filter-pill active" onclick="filterAdvisoryCards('ALL', this)">ALL 5 ASSETS</button>
+          <button class="filter-pill" onclick="filterAdvisoryCards('BUY', this)">▲ BUY SETUPS</button>
+          <button class="filter-pill" onclick="filterAdvisoryCards('SELL', this)">▼ SELL SETUPS</button>
+          <button class="btn-outline-green" id="lock-levels-btn" onclick="toggleLockEntryLevels()">
+            🔓 ENTRY TRACKING: LIVE
+          </button>
         </div>
       </div>
-      <div id="tv_live_chart_container" class="tv-chart-container"></div>
+
+      <div class="advisory-cards-grid" id="advisory-cards-container" style="margin-top: 16px;">
+        <!-- Populated dynamically by app.js -->
+      </div>
     </section>
 
-    <!-- ===================================================================
-         SECTION 1: CFDs DESK (XAUUSD, BTCUSD, USDJPY, FX, INDICES, OIL)
-         =================================================================== -->
-    <section id="desk-section-cfds" class="wb-desk-section">
-      <div class="wb-section-card">
-        <div class="wb-section-head">
-          <div>
-            <div class="wb-eyebrow">
-              <span class="wb-index-badge">01</span>
-              <span>DEDICATED CFDs SECTION • LIVE TRADINGVIEW PRICES (OANDA / BITSTAMP / FX)</span>
-            </div>
-            <h2 class="wb-section-title">CFDs Trading Desk — XAUUSD, BTCUSD, USDJPY &amp; Global Macros</h2>
-            <p class="wb-section-desc">
-              Live prices pulled directly from <strong>TradingView (`scanner.tradingview.com`)</strong> every 4 seconds. Click any card's <strong>[📈 Live TV Chart]</strong> button to inspect the instrument on TradingView.
-            </p>
+    <!-- 6. LIVE TRADINGVIEW 4H CHART (WITH RSI & MACD) + 1:1 R:R CALCULATOR -->
+    <section class="workspace-split">
+      <!-- Left: Interactive TradingView 4-Hour Chart with RSI & MACD Studies -->
+      <div class="panel-card">
+        <div class="section-bar" style="padding-bottom: 8px;">
+          <div class="section-title-group">
+            <h2 id="tv-chart-heading">📈 LIVE 4H TRADINGVIEW CHART — OANDA:XAUUSD</h2>
+            <p>Pre-loaded with <strong>RSI(14)</strong> and <strong>MACD(12, 26, 9)</strong> on the 4-Hour (240m) timeframe</p>
           </div>
+          <div class="chart-asset-tabs" id="chart-tabs-bar">
+            <button class="chart-tab-btn active" onclick="selectChartAsset('XAUUSD')">XAUUSD</button>
+            <button class="chart-tab-btn" onclick="selectChartAsset('BTCUSD')">BTCUSD</button>
+            <button class="chart-tab-btn" onclick="selectChartAsset('ETHUSD')">ETHUSD</button>
+            <button class="chart-tab-btn" onclick="selectChartAsset('XAGUSD')">XAGUSD</button>
+            <button class="chart-tab-btn" onclick="selectChartAsset('USDJPY')">USDJPY</button>
+          </div>
+        </div>
+        <div id="tv_4h_chart_container" class="tv-chart-frame"></div>
+      </div>
 
-          <div class="wb-desk-toolbar">
-            <div class="wb-filter-group">
-              <button class="wb-filter-btn active" onclick="filterSection('cfds', 'ALL', this)">All CFDs (14)</button>
-              <button class="wb-filter-btn" onclick="filterSection('cfds', 'BUY', this)">▲ BUY Only</button>
-              <button class="wb-filter-btn" onclick="filterSection('cfds', 'SELL', this)">▼ SELL Only</button>
-              <button class="wb-filter-btn" onclick="filterSection('cfds', 'HOLD', this)">◆ HOLD Only</button>
-            </div>
-
-            <div class="wb-view-Readout">
-              <input
-                type="search"
-                class="wb-search-input"
-                placeholder="Search CFD (XAUUSD, BTCUSD, USDJPY)..."
-                oninput="searchSection('cfds', this.value)"
-              />
-              <div class="wb-layout-toggle">
-                <button class="wb-layout-btn active" id="btn-layout-cfds-cards" onclick="setSectionLayout('cfds', 'cards')">Cards</button>
-                <button class="wb-layout-btn" id="btn-layout-cfds-table" onclick="setSectionLayout('cfds', 'table')">Matrix</button>
-              </div>
-            </div>
+      <!-- Right: Interactive 1:1 Risk-to-Reward Position & PnL Calculator -->
+      <div class="panel-card">
+        <div class="section-bar" style="padding-bottom: 8px;">
+          <div class="section-title-group">
+            <h2>🧮 1:1 R:R POSITION &amp; TRADE CALCULATOR</h2>
+            <p>Calculate exact position size, 1:1 Take Profit target &amp; Stop Loss risk for the next 4 hours</p>
           </div>
         </div>
 
-        <div id="cfds-cards-container" class="wb-cards-grid"></div>
+        <div class="calc-form-grid">
+          <div class="form-field">
+            <label for="calc-asset">Select Focus Asset</label>
+            <select id="calc-asset" onchange="updateCalculator()">
+              <option value="XAUUSD">XAUUSD (Gold Spot)</option>
+              <option value="BTCUSD">BTCUSD (Bitcoin)</option>
+              <option value="ETHUSD">ETHUSD (Ethereum)</option>
+              <option value="XAGUSD">XAGUSD (Silver Spot)</option>
+              <option value="USDJPY">USDJPY (USD / Yen)</option>
+            </select>
+          </div>
 
-        <div id="cfds-table-container" class="wb-table-wrap" style="display:none;">
-          <table class="wb-table">
-            <thead>
-              <tr>
-                <th>CFD Instrument (TradingView Ticker)</th>
-                <th>Category</th>
-                <th>Live TradingView Price</th>
-                <th>24h Change</th>
-                <th>Day High / Low</th>
-                <th>News Advisory</th>
-                <th>Driving Financial / Macro News Report</th>
-                <th>Chart</th>
-              </tr>
-            </thead>
-            <tbody id="cfds-table-body"></tbody>
-          </table>
+          <div class="form-field">
+            <label for="calc-balance">Account Balance ($ USD)</label>
+            <input type="number" id="calc-balance" value="10000" min="100" step="100" oninput="updateCalculator()" />
+          </div>
+
+          <div class="form-field">
+            <label for="calc-risk-pct">Risk Per Trade (%)</label>
+            <input type="number" id="calc-risk-pct" value="1.0" min="0.1" max="20" step="0.1" oninput="updateCalculator()" />
+          </div>
+
+          <div class="form-field">
+            <label for="calc-custom-dist">4H Stop/Target Distance (Points/$)</label>
+            <input type="number" id="calc-custom-dist" value="" step="any" placeholder="Auto (Live 4H Volatility)" oninput="updateCalculator()" />
+          </div>
+        </div>
+
+        <div class="calc-output-box" id="calc-output-container">
+          <!-- Populated dynamically by app.js -->
+        </div>
+
+        <div class="strategy-rationale">
+          <strong>📘 HOW THE 4-HOUR RSI + MACD (1:1 R:R) STRATEGY WORKS</strong>
+          Every 4-hour session, the engine evaluates <strong>RSI(14)</strong> momentum (bullish expansion above 50 or oversold bounce &lt;35; bearish rejection below 50 or overbought reversal &gt;65) alongside the <strong>MACD(12, 26, 9)</strong> histogram &amp; signal line crossover. When confluence aligns, it issues a <strong>BUY</strong> or <strong>SELL</strong> trade for the next 4 hours with <strong>Take Profit</strong> and <strong>Stop Loss</strong> placed at an identical distance (`1.00R`) from <strong>Entry</strong>.
         </div>
       </div>
     </section>
 
-    <!-- ===================================================================
-         SECTION 2: OPTIONS DESK (META, NVDA, SPY, QQQ, TSLA, AAPL, INTC)
-         =================================================================== -->
-    <section id="desk-section-options" class="wb-desk-section">
-      <div class="wb-section-card">
-        <div class="wb-section-head">
-          <div>
-            <div class="wb-eyebrow">
-              <span class="wb-index-badge">02</span>
-              <span>DEDICATED OPTIONS SECTION • LIVE TRADINGVIEW EQUITY &amp; ETF QUOTES</span>
-            </div>
-            <h2 class="wb-section-title">Options Trading Desk — Driven Solely by Earnings &amp; Macro News Reports</h2>
-            <p class="wb-section-desc">
-              Live underlying stock prices pulled directly from <strong>TradingView (`NASDAQ` / `NYSE` / `AMEX`)</strong> with <strong>BUY / SELL / HOLD</strong> options advisories based strictly on financial news reports.
-            </p>
-          </div>
-
-          <div class="wb-desk-toolbar">
-            <div class="wb-filter-group">
-              <button class="wb-filter-btn active" onclick="filterSection('options', 'ALL', this)">All Options (14)</button>
-              <button class="wb-filter-btn" onclick="filterSection('options', 'BUY', this)">▲ BUY Calls</button>
-              <button class="wb-filter-btn" onclick="filterSection('options', 'SELL', this)">▼ SELL / Puts</button>
-              <button class="wb-filter-btn" onclick="filterSection('options', 'HOLD', this)">◆ HOLD / Neutral</button>
-            </div>
-
-            <div class="wb-view-Readout">
-              <input
-                type="search"
-                class="wb-search-input"
-                placeholder="Search Option (META, NVDA, SPY, TSLA)..."
-                oninput="searchSection('options', this.value)"
-              />
-              <div class="wb-layout-toggle">
-                <button class="wb-layout-btn active" id="btn-layout-options-cards" onclick="setSectionLayout('options', 'cards')">Cards</button>
-                <button class="wb-layout-btn" id="btn-layout-options-table" onclick="setSectionLayout('options', 'table')">Matrix</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div id="options-cards-container" class="wb-cards-grid"></div>
-
-        <div id="options-table-container" class="wb-table-wrap" style="display:none;">
-          <table class="wb-table">
-            <thead>
-              <tr>
-                <th>Underlying (TradingView Ticker)</th>
-                <th>Live TradingView Share Price</th>
-                <th>24h Move</th>
-                <th>Target Option Contract</th>
-                <th>Est. Option Premium</th>
-                <th>IV &amp; Delta</th>
-                <th>News Advisory</th>
-                <th>Financial News Report Rationale</th>
-              </tr>
-            </thead>
-            <tbody id="options-table-body"></tbody>
-          </table>
+    <!-- 7. COMPLETE 5-ASSET 4H RSI + MACD EXECUTION MATRIX TABLE -->
+    <section>
+      <div class="section-bar">
+        <div class="section-title-group">
+          <h2>📋 4-HOUR RSI + MACD EXECUTION MATRIX (1:1 RISK-TO-REWARD)</h2>
+          <p>Side-by-side real-time comparison of all 5 instruments with live TradingView prices, RSI(14), MACD(12,26,9), Entry, TP, and SL</p>
         </div>
       </div>
-    </section>
 
-    <!-- ===================================================================
-         SECTION 3: FUTURES DESK (ES1!, NQ1!, GC1!, CL1!, ZN1!, 6J1!, BTC1!)
-         =================================================================== -->
-    <section id="desk-section-futures" class="wb-desk-section">
-      <div class="wb-section-card">
-        <div class="wb-section-head">
-          <div>
-            <div class="wb-eyebrow">
-              <span class="wb-index-badge">03</span>
-              <span>DEDICATED FUTURES SECTION • LIVE TRADINGVIEW CME / COMEX / NYMEX QUOTES</span>
-            </div>
-            <h2 class="wb-section-title">Futures Trading Desk — Index, Commodities, Treasury &amp; FX Futures</h2>
-            <p class="wb-section-desc">
-              Live exchange futures prices pulled directly from <strong>TradingView (`CME_MINI`, `COMEX`, `NYMEX`, `CBOT`)</strong> paired with 100% news-driven <strong>BUY / SELL / HOLD</strong> signals.
-            </p>
-          </div>
-
-          <div class="wb-desk-toolbar">
-            <div class="wb-filter-group">
-              <button class="wb-filter-btn active" onclick="filterSection('futures', 'ALL', this)">All Futures (14)</button>
-              <button class="wb-filter-btn" onclick="filterSection('futures', 'BUY', this)">▲ BUY Only</button>
-              <button class="wb-filter-btn" onclick="filterSection('futures', 'SELL', this)">▼ SELL Only</button>
-              <button class="wb-filter-btn" onclick="filterSection('futures', 'HOLD', this)">◆ HOLD Only</button>
-            </div>
-
-            <div class="wb-view-Readout">
-              <input
-                type="search"
-                class="wb-search-input"
-                placeholder="Search Futures (ES=F, NQ=F, GC=F, CL=F)..."
-                oninput="searchSection('futures', this.value)"
-              />
-              <div class="wb-layout-toggle">
-                <button class="wb-layout-btn active" id="btn-layout-futures-cards" onclick="setSectionLayout('futures', 'cards')">Cards</button>
-                <button class="wb-layout-btn" id="btn-layout-futures-table" onclick="setSectionLayout('futures', 'table')">Matrix</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div id="futures-cards-container" class="wb-cards-grid"></div>
-
-        <div id="futures-table-container" class="wb-table-wrap" style="display:none;">
-          <table class="wb-table">
-            <thead>
-              <tr>
-                <th>Futures Contract (TradingView Ticker)</th>
-                <th>Exchange &amp; Specs</th>
-                <th>Live TradingView Price</th>
-                <th>24h Change</th>
-                <th>Day High / Low</th>
-                <th>News Advisory</th>
-                <th>Macro News Report Catalyst</th>
-                <th>Chart</th>
-              </tr>
-            </thead>
-            <tbody id="futures-table-body"></tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================================================================
-         SECTION 4: LIVE FOREXFACTORY (CPI/NFP) & YAHOO FINANCE NEWS WIRE
-         =================================================================== -->
-    <section id="desk-section-news" class="wb-desk-section">
-      <div class="wb-dual-news-grid">
-
-        <div class="wb-section-card">
-          <div class="wb-section-head">
-            <div>
-              <div class="wb-eyebrow">
-                <span class="wb-index-badge">FF</span>
-                <span>FOREXFACTORY LIVE MACRO FEED • NO API KEY</span>
-                <span class="live-wire-pill"><span class="dot-green"></span> <span id="ff-sync-time">Streaming</span></span>
-              </div>
-              <h2 class="wb-section-title">CPI, NFP, FOMC &amp; High-Impact Releases</h2>
-              <p class="wb-section-desc">
-                Pulled direct from ForexFactory's public feed (`nfs.faireconomy.media`). Real-time economic data with macro news advisories.
-              </p>
-            </div>
-            <div class="wb-filter-group">
-              <button class="wb-filter-btn active" onclick="filterCalendarImpact('ALL', this)">All</button>
-              <button class="wb-filter-btn" onclick="filterCalendarImpact('HIGH', this)">High Impact</button>
-              <button class="wb-filter-btn" onclick="filterCalendarImpact('USD', this)">USD</button>
-              <button class="btn-link" onclick="fetchLiveForexFactoryCalendar(true)" title="Force sync latest ForexFactory calendar">↻ Refresh</button>
-            </div>
-          </div>
-
-          <div class="wb-table-wrap">
-            <table class="wb-table">
-              <thead>
-                <tr>
-                  <th>Ccy / Release</th>
-                  <th>Impact</th>
-                  <th>Actual</th>
-                  <th>Forecast</th>
-                  <th>Prev</th>
-                  <th>Signal</th>
-                </tr>
-              </thead>
-              <tbody id="full-ff-calendar-tbody"></tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="wb-section-card">
-          <div class="wb-section-head">
-            <div>
-              <div class="wb-eyebrow">
-                <span class="wb-index-badge">YF</span>
-                <span>YAHOO FINANCE DIRECT RSS WIRE • NO API KEY</span>
-                <span class="live-wire-pill"><span class="dot-green"></span> <span id="yf-sync-time">Live Stream</span></span>
-              </div>
-              <h2 class="wb-section-title">Live Earnings &amp; Market News Reports</h2>
-              <p class="wb-section-desc">
-                Real-time headlines from Yahoo Finance mapped automatically to <strong>BUY / SELL / HOLD</strong> desk actions.
-              </p>
-            </div>
-            <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-              <input
-                type="search"
-                class="wb-search-input"
-                placeholder="Filter news (META, CPI, Gold)..."
-                oninput="filterLiveNewsWire(this.value)"
-              />
-              <button class="btn-link" onclick="fetchLiveYahooFinanceNews(true)" title="Force fetch fresh news headlines">↻ Refresh News</button>
-            </div>
-          </div>
-
-          <div id="full-yahoo-news-grid" class="wb-news-stack"></div>
-        </div>
-
+      <div class="matrix-table-wrap" style="margin-top: 14px;">
+        <table class="matrix-table">
+          <thead>
+            <tr>
+              <th>Instrument</th>
+              <th>4H Signal</th>
+              <th>Live TV Price</th>
+              <th>24H Change</th>
+              <th>4H RSI(14)</th>
+              <th>4H MACD (Line / Signal / Hist)</th>
+              <th>Entry Price</th>
+              <th>Take Profit (1:1 TP)</th>
+              <th>Stop Loss (1:1 SL)</th>
+              <th>1:1 Distance</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="execution-matrix-tbody">
+            <!-- Populated dynamically by app.js -->
+          </tbody>
+        </table>
       </div>
     </section>
 
   </main>
 
-  <!-- SLEEK MONOCHROME FOOTER -->
-  <footer class="wb-footer">
-    <div class="wb-footer-inner">
-      <div>
-        <strong>KPOINT COF — NEXT-GEN WHITE &amp; BLACK MACRO NEWS TRADING TERMINAL</strong>
-        <p>100% Real-Time Prices from TradingView (`scanner.tradingview.com`) + Live Yahoo Finance &amp; ForexFactory Feeds • Zero API Keys Required</p>
-      </div>
-      <div class="wb-footer-pills">
-        <span class="wb-pill-outline">CFDs (XAUUSD • BTCUSD • USDJPY)</span>
-        <span class="wb-pill-outline">Options (META • NVDA • SPY)</span>
-        <span class="wb-pill-outline">Futures (ES=F • NQ=F • GC=F)</span>
-      </div>
+  <!-- 8. TERMINAL FOOTER -->
+  <footer class="terminal-footer">
+    <div>
+      <strong>KPOINT SIMPLE TRADES</strong> // Green &amp; Black 4-Hour RSI(14) + MACD(12,26,9) Trade Advisory Terminal • 1:1 Risk-to-Reward
+    </div>
+    <div style="margin-top: 6px;">
+      Focus Universe: <strong>XAUUSD • BTCUSD • ETHUSD • XAGUSD • USDJPY</strong> • Powered by Live TradingView Scanner API &amp; Widgets (No API Keys Required)
     </div>
   </footer>
 
-  <div id="toast-container" class="toast-container"></div>
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast-banner" class="toast-banner"></div>
 
   <script src="app.js"></script>
 </body>
